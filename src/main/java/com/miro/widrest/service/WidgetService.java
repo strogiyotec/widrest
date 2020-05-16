@@ -13,4 +13,6 @@ public interface WidgetService {
     DbWidget update(Identifiable id, Widget widget);
 
     Iterable<? extends DbWidget> getAll();
+
+    DbWidget delete(Identifiable id);
 }

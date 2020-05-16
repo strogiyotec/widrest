@@ -10,9 +10,9 @@ import java.util.function.BiPredicate;
 
 public interface WidgetStorage {
 
-    DbWidget add(Widget widget);
+    DbWidget remove(Identifiable id);
 
-    Iterable<? extends DbWidget> moveIndexes(Widget lowestIndexWidget);
+    DbWidget add(Widget widget);
 
     DbWidget update(Widget widget, Identifiable id);
 
@@ -20,9 +20,11 @@ public interface WidgetStorage {
 
     DbWidget getLast(Comparator<DbWidget> comparator);
 
-    boolean exists(BiPredicate<Identifiable, DbWidget> predicate);
-
     Iterable<? extends DbWidget> getAll();
+
+    Iterable<? extends DbWidget> moveIndexes(Widget lowestIndexWidget);
+
+    boolean exists(BiPredicate<Identifiable, DbWidget> predicate);
 
     @AllArgsConstructor
     final class SearchById implements BiPredicate<Identifiable, DbWidget> {

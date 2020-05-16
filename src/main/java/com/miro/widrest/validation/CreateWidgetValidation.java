@@ -2,14 +2,14 @@ package com.miro.widrest.validation;
 
 import com.miro.widrest.domain.Widget;
 
-public final class WidgetSizeValidation implements WidgetValidation {
+public final class CreateWidgetValidation implements WidgetValidation {
     @Override
-    public Widget validate(final Widget widget) {
+    public Widget validate(final Widget widget) throws IllegalArgumentException {
         if (widget.getHeight() < 0) {
-            throw new IllegalStateException("Height must be non negative");
+            throw new IllegalArgumentException("Height must be non negative");
         }
         if (widget.getWidth() < 0) {
-            throw new IllegalStateException("Width must by non negative");
+            throw new IllegalArgumentException("Width must by non negative");
         }
         return widget;
     }

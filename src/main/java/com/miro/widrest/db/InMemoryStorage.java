@@ -3,9 +3,9 @@ package com.miro.widrest.db;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
-import com.miro.widrest.domain.impl.ConstantIdentifiable;
 import com.miro.widrest.domain.impl.DbSavedWidget;
 import com.miro.widrest.domain.impl.HigherIndexWidget;
+import com.miro.widrest.domain.impl.ImmutableIdentifier;
 import lombok.AllArgsConstructor;
 
 import java.util.*;
@@ -27,9 +27,16 @@ public final class InMemoryStorage implements WidgetStorage {
     }
 
     @Override
+    public DbWidget remove(final Identifiable id) {
+        return Optional.ofNullable(
+                this.storage.remove(id)
+        ).orElse(DbWidget.empty);
+    }
+
+    @Override
     public DbWidget add(final Widget widget) {
         return this.storage.computeIfAbsent(
-                new ConstantIdentifiable(this.serial.incrementAndGet()),
+                new ImmutableIdentifier(this.serial.incrementAndGet()),
                 identifiable -> new DbSavedWidget(widget, identifiable)
         );
     }
@@ -56,11 +63,13 @@ public final class InMemoryStorage implements WidgetStorage {
 
     @Override
     public DbWidget update(final Widget widget, final Identifiable id) {
-        return this.storage.computeIfPresent(
-                id,
-                (identifiable, dbWidget) ->
-                        new DbSavedWidget(widget, identifiable)
-        );
+        return Optional.ofNullable(
+                this.storage.computeIfPresent(
+                        id,
+                        (identifiable, dbWidget) ->
+                                new DbSavedWidget(widget, identifiable)
+                )
+        ).orElse(DbWidget.empty);
     }
 
     @Override

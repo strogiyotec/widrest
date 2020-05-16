@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public final class ConstantIdentifiable implements Identifiable {
+public final class ImmutableIdentifier implements Identifiable {
 
     private final long id;
 

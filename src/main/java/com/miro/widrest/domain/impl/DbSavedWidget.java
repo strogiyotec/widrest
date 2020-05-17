@@ -22,4 +22,9 @@ public final class DbSavedWidget implements DbWidget {
         final Identifiable that = (Identifiable) another;
         return Objects.equals(this.id, that);
     }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
 }

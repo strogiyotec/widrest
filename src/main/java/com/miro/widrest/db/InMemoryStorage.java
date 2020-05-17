@@ -13,12 +13,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public final class InMemoryStorage implements WidgetStorage {
 
+    /**
+     * Pk generator.
+     */
     private final AtomicLong serial;
 
+    /**
+     * Actual storage.
+     */
     private final ConcurrentMap<Identifiable, DbWidget> storage;
 
     public InMemoryStorage() {
@@ -58,6 +65,7 @@ public final class InMemoryStorage implements WidgetStorage {
             }
             return dbWidget;
         });
+        replaced.sort(Comparator.comparing(DbWidget::getZ));
         return replaced;
     }
 
@@ -100,6 +108,10 @@ public final class InMemoryStorage implements WidgetStorage {
 
     @Override
     public Iterable<? extends DbWidget> getAll() {
-        return this.storage.values();
+        return this.storage
+                .values()
+                .stream()
+                .sorted(Comparator.comparing(DbWidget::getZ))
+                .collect(Collectors.toList());
     }
 }

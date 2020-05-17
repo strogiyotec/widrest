@@ -4,6 +4,9 @@ public interface DbWidget extends Identifiable, Widget {
 
     Empty empty = new Empty();
 
+    @Override
+    boolean equals(Object another);
+
     class Empty implements DbWidget {
 
         @Override

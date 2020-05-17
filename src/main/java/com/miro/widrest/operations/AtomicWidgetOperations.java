@@ -1,10 +1,10 @@
-package com.miro.widrest.service;
+package com.miro.widrest.operations;
 
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
 
-public interface WidgetService {
+public interface AtomicWidgetOperations {
 
     DbWidget create(Widget widget);
 

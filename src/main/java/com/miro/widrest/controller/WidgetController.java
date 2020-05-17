@@ -3,7 +3,7 @@ package com.miro.widrest.controller;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.impl.ImmutableIdentifier;
 import com.miro.widrest.domain.impl.ImmutableWidget;
-import com.miro.widrest.service.WidgetService;
+import com.miro.widrest.operations.AtomicWidgetOperations;
 import com.miro.widrest.validation.WidgetValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +16,22 @@ import java.util.Map;
 @RestController
 public final class WidgetController {
 
-    private final WidgetService widgetService;
+    private final AtomicWidgetOperations atomicOperation;
 
     private final Map<WidgetValidation.Type, WidgetValidation> validation;
 
     @Autowired
     public WidgetController(
-            final WidgetService widgetService,
+            final AtomicWidgetOperations atomicWidgetOperations,
             final Map<WidgetValidation.Type, WidgetValidation> validation
     ) {
-        this.widgetService = widgetService;
+        this.atomicOperation = atomicWidgetOperations;
         this.validation = validation;
     }
 
     @GetMapping("/widgets/{id}")
     public ResponseEntity<? extends DbWidget> get(@PathVariable("id") final long id) {
-        final DbWidget dbWidget = this.widgetService.get(new ImmutableIdentifier(id));
+        final DbWidget dbWidget = this.atomicOperation.get(new ImmutableIdentifier(id));
         if (dbWidget == DbWidget.empty) {
             return ResponseEntity.notFound().build();
         } else {
@@ -42,7 +42,7 @@ public final class WidgetController {
     @GetMapping("/widgets")
     public ResponseEntity<Object> getAll() {
         final List<DbWidget> widgets = new ArrayList<>(16);
-        this.widgetService.getAll().forEach(widgets::add);
+        this.atomicOperation.getAll().forEach(widgets::add);
         if (widgets.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {
@@ -55,7 +55,7 @@ public final class WidgetController {
             @RequestBody final ImmutableWidget widget,
             @PathVariable("id") final long id) {
         try {
-            final DbWidget updated = this.widgetService.update(new ImmutableIdentifier(id), widget);
+            final DbWidget updated = this.atomicOperation.update(new ImmutableIdentifier(id), widget);
             if (updated == DbWidget.empty) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -79,7 +79,7 @@ public final class WidgetController {
         try {
             return
                     ResponseEntity.ok(
-                            this.widgetService.create(
+                            this.atomicOperation.create(
                                     this.validation.get(WidgetValidation.Type.INSERT).validate(widget)
                             )
                     );
@@ -98,7 +98,7 @@ public final class WidgetController {
 
     @DeleteMapping("/widgets/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") final long id) {
-        final DbWidget deleted = this.widgetService.delete(new ImmutableIdentifier(id));
+        final DbWidget deleted = this.atomicOperation.delete(new ImmutableIdentifier(id));
         if (deleted == DbWidget.empty) {
             return ResponseEntity.notFound().build();
         } else {

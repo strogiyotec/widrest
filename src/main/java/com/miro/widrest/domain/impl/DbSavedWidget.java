@@ -6,6 +6,8 @@ import com.miro.widrest.domain.Widget;
 import lombok.AllArgsConstructor;
 import lombok.experimental.Delegate;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 public final class DbSavedWidget implements DbWidget {
     @Delegate
@@ -14,4 +16,10 @@ public final class DbSavedWidget implements DbWidget {
     @Delegate
     private final Identifiable id;
 
+    @Override
+    public boolean equals(final Object another) {
+        if (this == another) return true;
+        final Identifiable that = (Identifiable) another;
+        return Objects.equals(this.id, that);
+    }
 }

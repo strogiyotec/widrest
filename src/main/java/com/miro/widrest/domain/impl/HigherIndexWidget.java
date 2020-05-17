@@ -8,6 +8,12 @@ import com.miro.widrest.domain.Widget;
 public final class HigherIndexWidget extends ImmutableWidget {
 
     public HigherIndexWidget(final Widget widget) {
-        super(widget.getX(), widget.getY(), widget.getZ() + 1, widget.getWidth(), widget.getHeight());
+        super(
+                widget.getX(),
+                widget.getY(),
+                widget.getZ() + 1,
+                widget.getWidth(),
+                widget.getHeight()
+        );
     }
 }

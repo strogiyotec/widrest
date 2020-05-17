@@ -1,4 +1,4 @@
-package com.miro.widrest.service;
+package com.miro.widrest.operations;
 
 import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.concurrent.locks.ReadWriteLock;
 
 @AllArgsConstructor
-public final class InMemoryWidgetService implements WidgetService {
+public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
 
     private final ReadWriteLock lock;
 
@@ -86,7 +86,7 @@ public final class InMemoryWidgetService implements WidgetService {
 
     private DbWidget saveEmptyZIndexWidget(final Widget widget) {
         final DbWidget lowestZIndexWidget = this.storage.getLast(Comparator.comparing(DbWidget::getZ).reversed());
-        //storage is not empty
+        //db is not empty
         if (lowestZIndexWidget != null) {
             return this.storage.add(new LowerIndexWidget(widget));
         } else {

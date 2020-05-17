@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * Config for h2 db.
+ */
 @Configuration
 @Profile("db")
 public class DbConfig {
@@ -20,10 +23,8 @@ public class DbConfig {
     @Bean
     public JdbcTemplate jdbcTemplate(final Environment environment) throws IOException {
         final JdbcTemplate jdbcTemplate = new JdbcTemplate(this.dataSource(environment));
-        File file = new File(getClass().getClassLoader().getResource("schema.sql").getFile());
-        jdbcTemplate.execute(
-                Files.readString(file.toPath())
-        );
+        File initSql = new File(getClass().getClassLoader().getResource("schema.sql").getFile());
+        jdbcTemplate.execute(Files.readString(initSql.toPath()));
         return jdbcTemplate;
     }
 

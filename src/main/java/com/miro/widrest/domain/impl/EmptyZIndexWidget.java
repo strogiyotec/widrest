@@ -7,11 +7,23 @@ import lombok.experimental.Delegate;
 
 import java.util.Optional;
 
+/**
+ * Widget without z-index.
+ */
 public final class EmptyZIndexWidget implements DbWidget {
 
     @Delegate
     private final DbWidget origin;
 
+    /**
+     * Ctor.
+     * If widget doesn't have z-index
+     * then assign the one which is one level lower
+     * than min z-index is storage
+     *
+     * @param storage Storage
+     * @param toSave  Widget To save
+     */
     public EmptyZIndexWidget(final WidgetStorage storage, final Widget toSave) {
         this.origin =
                 Optional.ofNullable(storage.getLastByZIndex())

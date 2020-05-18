@@ -55,3 +55,10 @@ If `db` profiles was chosen , then H2 DB is used .
         (Add **spring.profiles.active=db** to **application.properties**)
 
 - Pagination (default size is 10, max size is 500)
+
+
+## Test coverage
+
+Project uses [jacoco](https://www.eclemma.org/jacoco/). Test coverage is 86%
+
+

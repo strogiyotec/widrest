@@ -1,10 +1,18 @@
 package com.miro.widrest.operations;
 
+import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
+import lombok.AllArgsConstructor;
+import org.springframework.transaction.support.TransactionTemplate;
 
-public final class H2AtmocOperations implements AtomicWidgetOperations{
+@AllArgsConstructor
+public final class H2AtmocOperations implements AtomicWidgetOperations {
+
+    private final TransactionTemplate transactionTemplate;
+
+    private final WidgetStorage storage;
 
     @Override
     public DbWidget create(final Widget widget) {
@@ -27,7 +35,7 @@ public final class H2AtmocOperations implements AtomicWidgetOperations{
     }
 
     @Override
-    public DbWidget delete(final Identifiable id) {
-        return null;
+    public boolean delete(final Identifiable id) {
+        return false;
     }
 }

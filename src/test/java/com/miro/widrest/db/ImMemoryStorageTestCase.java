@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 final class ImMemoryStorageTestCase {
 
@@ -46,15 +45,11 @@ final class ImMemoryStorageTestCase {
     }
 
     @Test
-    @DisplayName("Test that returns Empty widget if didn't delete anything")
+    @DisplayName("Test that returns false if didn't delete anything")
     public void testDeleteNonExisting() {
         final InMemoryStorage storage = new InMemoryStorage();
-        //when doesn't exist returns empty
-        Assertions.assertEquals(
-                storage.remove(new MockedIdentifier()),
-                DbWidget.empty
-
-        );
+        //when doesn't exist returns true
+        Assertions.assertFalse(storage.remove(new MockedIdentifier()));
     }
 
     @Test

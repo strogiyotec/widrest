@@ -98,8 +98,7 @@ public final class WidgetController {
 
     @DeleteMapping("/widgets/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") final long id) {
-        final DbWidget deleted = this.atomicOperation.delete(new ImmutableIdentifier(id));
-        if (deleted == DbWidget.empty) {
+        if (!this.atomicOperation.delete(new ImmutableIdentifier(id))) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.noContent().build();

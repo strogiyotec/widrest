@@ -14,5 +14,5 @@ public interface AtomicWidgetOperations {
 
     Iterable<? extends DbWidget> getAll();
 
-    DbWidget delete(Identifiable id);
+    boolean delete(Identifiable id);
 }

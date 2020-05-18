@@ -10,7 +10,7 @@ import java.util.function.BiPredicate;
 
 public interface WidgetStorage {
 
-    DbWidget remove(Identifiable id);
+    boolean remove(Identifiable id);
 
     DbWidget add(Widget widget);
 

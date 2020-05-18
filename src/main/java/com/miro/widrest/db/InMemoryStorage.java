@@ -34,10 +34,8 @@ public final class InMemoryStorage implements WidgetStorage {
     }
 
     @Override
-    public DbWidget remove(final Identifiable id) {
-        return Optional.ofNullable(
-                this.storage.remove(id)
-        ).orElse(DbWidget.empty);
+    public boolean remove(final Identifiable id) {
+        return this.storage.remove(id) != null;
     }
 
     @Override

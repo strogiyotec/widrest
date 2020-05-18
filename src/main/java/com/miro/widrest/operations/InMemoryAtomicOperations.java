@@ -64,7 +64,7 @@ public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
     }
 
     @Override
-    public DbWidget delete(final Identifiable id) {
+    public boolean delete(final Identifiable id) {
         try {
             this.lock.readLock().lock();
             return this.storage.remove(id);

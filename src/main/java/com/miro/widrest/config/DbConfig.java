@@ -4,9 +4,10 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -17,7 +18,6 @@ import java.nio.file.Files;
  * Config for h2 db.
  */
 @Configuration
-@Profile("db")
 public class DbConfig {
 
     @Bean
@@ -29,7 +29,17 @@ public class DbConfig {
     }
 
     @Bean
+    public TransactionTemplate transactionTemplate(final Environment environment) {
+        return new TransactionTemplate(
+                new DataSourceTransactionManager(
+                        this.dataSource(environment)
+                )
+        );
+    }
+
+    @Bean
     public DataSource dataSource(final Environment environment) {
+        System.out.println("Called");
         final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
         hikariConfig.setJdbcUrl(environment.getProperty("spring.datasource.url"));

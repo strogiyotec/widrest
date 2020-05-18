@@ -76,6 +76,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>com/miro/widrest/config/DbConfig.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

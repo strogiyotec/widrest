@@ -4,12 +4,10 @@ import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
-import com.miro.widrest.domain.impl.FirstWidget;
-import com.miro.widrest.domain.impl.LowerIndexWidget;
+import com.miro.widrest.domain.impl.EmptyZIndexWidget;
+import com.miro.widrest.domain.impl.PredefinedZIndexWidget;
 import lombok.AllArgsConstructor;
 
-import java.util.Comparator;
-import java.util.Optional;
 import java.util.concurrent.locks.ReadWriteLock;
 
 @AllArgsConstructor
@@ -24,9 +22,9 @@ public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
         try {
             this.lock.writeLock().lock();
             if (widget.getZ() == null) {
-                return this.saveEmptyZIndexWidget(widget);
+                return new EmptyZIndexWidget(this.storage, widget);
             } else {
-                return this.saveWidgetWithIndex(widget);
+                return new PredefinedZIndexWidget(this.storage, widget);
             }
         } finally {
             this.lock.writeLock().unlock();
@@ -73,26 +71,4 @@ public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
         }
     }
 
-    private DbWidget saveWidgetWithIndex(final Widget widget) {
-        final DbWidget sameZIndexWidget = this.storage.get((identifiable, dbWidget) -> dbWidget.getZ().equals(widget.getZ()));
-        // we already have widget with given index
-        if (sameZIndexWidget != null) {
-            this.storage.moveIndexes(widget);
-            return this.storage.add(widget);
-        } else {
-            return this.storage.add(widget);
-        }
-    }
-
-    private DbWidget saveEmptyZIndexWidget(final Widget widget) {
-        return Optional.ofNullable(
-                //get lowest index
-                this.storage.getLast(
-                        Comparator.comparing(DbWidget::getZ).reversed())
-        )
-                //create new one with one index lower
-                .map(lowestIndexWidget -> this.storage.add(new LowerIndexWidget(lowestIndexWidget)))
-                //otherwise it db is empty and just create new widget
-                .orElse(this.storage.add(new FirstWidget(widget)));
-    }
 }

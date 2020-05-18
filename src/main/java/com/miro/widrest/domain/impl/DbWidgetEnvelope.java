@@ -6,7 +6,11 @@ import com.miro.widrest.domain.Identifiable;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class DbWidgetEnvelope implements DbWidget {
+/**
+ * Encapsulate origin and delegate all method calls
+ * to this origin.
+ */
+public abstract class DbWidgetEnvelope implements DbWidget {
 
     private final DbWidget origin;
 

@@ -1,5 +1,7 @@
 package com.miro.widrest.domain;
 
+import java.util.Objects;
+
 public interface DbWidget extends Identifiable, Widget {
 
     Empty empty = new Empty();
@@ -44,6 +46,18 @@ public interface DbWidget extends Identifiable, Widget {
         @Override
         public long getLastModified() {
             return -1;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(this.getId());
+        }
+
+        @Override
+        public boolean equals(final Object another) {
+            if (this == another) return true;
+            final Identifiable that = (Identifiable) another;
+            return Objects.equals(this.getId(), that.getId());
         }
     }
 }

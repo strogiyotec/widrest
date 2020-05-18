@@ -32,7 +32,7 @@ public final class WidgetController {
     @GetMapping("/widgets/{id}")
     public ResponseEntity<? extends DbWidget> get(@PathVariable("id") final long id) {
         final DbWidget dbWidget = this.atomicOperation.get(new ImmutableIdentifier(id));
-        if (dbWidget == DbWidget.empty) {
+        if (dbWidget.equals(DbWidget.empty)) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(dbWidget);
@@ -56,7 +56,7 @@ public final class WidgetController {
             @PathVariable("id") final long id) {
         try {
             final DbWidget updated = this.atomicOperation.update(new ImmutableIdentifier(id), widget);
-            if (updated == DbWidget.empty) {
+            if (updated.equals(DbWidget.empty)) {
                 return ResponseEntity.notFound().build();
             } else {
                 return ResponseEntity.ok(updated);

@@ -61,4 +61,6 @@ If `db` profiles was chosen , then H2 DB is used .
 
 Project uses [jacoco](https://www.eclemma.org/jacoco/). Test coverage is 86%
 
+![jacoco](https://github.com/strogiyotec/widrest/blob/master/img/jacoco.png)
+
 

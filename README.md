@@ -54,3 +54,4 @@ If `db` profiles was chosen , then H2 DB is used .
 - In memory H2 when profile is **db**  
         (Add **spring.profiles.active=db** to **application.properties**)
 
+- Pagination (default size is 10, max size is 500)

@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * Default size is 10.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

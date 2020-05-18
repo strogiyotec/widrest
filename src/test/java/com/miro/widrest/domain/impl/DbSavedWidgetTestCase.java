@@ -1,0 +1,22 @@
+package com.miro.widrest.domain.impl;
+
+import com.miro.widrest.domain.DbWidget;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+public final class DbSavedWidgetTestCase {
+
+    @Test
+    @DisplayName("Test that widget is equals to identifiable")
+    public void testEquals() {
+        final long id = 1;
+        final DbWidget widget = new DbSavedWidget(new MockedWidget(), new ImmutableIdentifier(id));
+        final ImmutableIdentifier identifier = new ImmutableIdentifier(id);
+
+        Assertions.assertEquals(
+                widget,
+                identifier
+        );
+    }
+}

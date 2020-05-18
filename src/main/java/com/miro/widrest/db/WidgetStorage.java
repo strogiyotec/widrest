@@ -17,7 +17,7 @@ public interface WidgetStorage {
 
     DbWidget get(BiPredicate<Identifiable, DbWidget> predicate);
 
-    DbWidget getLast(boolean lowestZIndex);
+    DbWidget getLastByZIndex(boolean fromLowest);
 
     Iterable<? extends DbWidget> getAll();
 
@@ -25,6 +25,9 @@ public interface WidgetStorage {
 
     boolean exists(BiPredicate<Identifiable, DbWidget> predicate);
 
+    /**
+     * Predicate that searches widget by id.
+     */
     @AllArgsConstructor
     final class SearchById implements BiPredicate<Identifiable, DbWidget> {
 
@@ -33,6 +36,17 @@ public interface WidgetStorage {
         @Override
         public boolean test(final Identifiable identifiable, final DbWidget dbWidget) {
             return this.identifiable.equals(identifiable);
+        }
+    }
+
+    @AllArgsConstructor
+    final class SearchByZIndex implements BiPredicate<Identifiable, DbWidget> {
+
+        private final Integer zIndex;
+
+        @Override
+        public boolean test(final Identifiable identifiable, final DbWidget dbWidget) {
+            return dbWidget.getZ().equals(this.zIndex);
         }
     }
 }

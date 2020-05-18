@@ -1,6 +1,8 @@
 package com.miro.widrest;
 
 import com.miro.widrest.db.InMemoryStorage;
+import com.miro.widrest.db.WidgetStorage;
+import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.FirstWidget;
 import com.miro.widrest.domain.impl.ImmutableWidget;
@@ -17,7 +19,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public final class Storage {
+public final class InMemoryAtomicOperationsTestCase {
 
     @Test
     @DisplayName("Test that it creates 20 unique widgets with unique z indexes concurrently")
@@ -48,6 +50,31 @@ public final class Storage {
                 .distinct()
                 .count();
         Assertions.assertEquals(count, iterations);
+    }
+
+    @Test
+    @DisplayName("Test when widget has new z-index then all other widgets with the same or bigger indexes are moved one level up")
+    public void testUpdate() {
+        final InMemoryStorage storage = new InMemoryStorage();
+        final InMemoryAtomicOperations operations = new InMemoryAtomicOperations(new ReentrantReadWriteLock(true), storage);
+        //populate storage
+        operations.create(new MockedWidget(10));
+        operations.create(new MockedWidget(11));
+        final DbWidget widget = operations.create(new MockedWidget(12));
+        //update z index from 12 to 10 should move two other widgets one level up
+        operations.update(widget, new ImmutableWidget(1, 1, 10, 1, 1));
+        //check that existing widget has new z-index
+        Assertions.assertEquals(
+                storage.get(new WidgetStorage.SearchById(widget)).getZ(),
+                10
+        );
+        // check that two other indexes were moved one level up
+        Assertions.assertEquals(
+                Utils.indexes(storage.getAll()),
+                List.of(10, 11, 12)
+        );
+
+
     }
 
     @Test

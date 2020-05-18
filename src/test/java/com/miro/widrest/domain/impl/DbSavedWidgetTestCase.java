@@ -19,4 +19,31 @@ public final class DbSavedWidgetTestCase {
                 identifier
         );
     }
+
+    @Test
+    @DisplayName("Test empty widget properties")
+    public void testEmptyWidget() {
+        final DbWidget.Empty empty = DbWidget.empty;
+        Assertions.assertNull(
+                empty.getHeight()
+        );
+        Assertions.assertNull(
+                empty.getWidth()
+        );
+        Assertions.assertNull(
+                empty.getX()
+        );
+        Assertions.assertNull(
+                empty.getY()
+        );
+        Assertions.assertEquals(
+                empty.getId(),
+                Integer.MIN_VALUE
+        );
+        Assertions.assertEquals(
+                empty.getLastModified(),
+                -1
+        );
+
+    }
 }

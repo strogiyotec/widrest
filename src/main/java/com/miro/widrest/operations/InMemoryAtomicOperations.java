@@ -12,6 +12,14 @@ import lombok.AllArgsConstructor;
 
 import java.util.concurrent.locks.ReadWriteLock;
 
+/**
+ * In memory atomic operations.
+ * Uses ReadWriteLock in order to provide atomic operations
+ * All create and update operations are atomic
+ * and they acquire write lock
+ * get and delete use read lock which are blocked
+ * by write lock
+ */
 @AllArgsConstructor
 public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
 

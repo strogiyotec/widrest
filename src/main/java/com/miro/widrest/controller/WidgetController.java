@@ -30,6 +30,13 @@ public final class WidgetController {
         this.validation = validation;
     }
 
+    /**
+     * Get widget by Id.
+     *
+     * @param id Id
+     * @return Entity with 200 status code
+     * Not found if no widget with id
+     */
     @GetMapping("/widgets/{id}")
     public ResponseEntity<? extends DbWidget> get(@PathVariable("id") final long id) {
         final DbWidget dbWidget = this.atomicOperation.get(new ImmutableIdentifier(id));
@@ -40,6 +47,13 @@ public final class WidgetController {
         }
     }
 
+    /**
+     * Get all widgets.
+     *
+     * @param pageable Pageable
+     * @return List Of widgets
+     * Or No content
+     */
     @GetMapping("/widgets")
     public ResponseEntity<Object> getAll(final Pageable pageable) {
         final List<DbWidget> widgets = new ArrayList<>(16);
@@ -51,6 +65,14 @@ public final class WidgetController {
         }
     }
 
+    /**
+     * Update widget.
+     *
+     * @param widget Widget
+     * @param id     Id
+     * @return Updated entity and status code Ok
+     * Not found if no widget with id
+     */
     @PutMapping("/widgets/{id}")
     public ResponseEntity<Object> update(
             @RequestBody final ImmutableWidget widget,
@@ -75,6 +97,13 @@ public final class WidgetController {
         }
     }
 
+    /**
+     * Create widget.
+     *
+     * @param widget Widget
+     * @return Created widget and status code Ok
+     * Bad request if not valid body
+     */
     @PostMapping("/widgets")
     public ResponseEntity<Object> create(@RequestBody final ImmutableWidget widget) {
         try {
@@ -97,6 +126,13 @@ public final class WidgetController {
         }
     }
 
+    /**
+     * Delete widget
+     *
+     * @param id Id
+     * @return No content if deleted
+     * Not found if not widget with id
+     */
     @DeleteMapping("/widgets/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") final long id) {
         if (!this.atomicOperation.delete(new ImmutableIdentifier(id))) {

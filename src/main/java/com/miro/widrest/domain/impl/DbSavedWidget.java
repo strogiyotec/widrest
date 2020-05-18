@@ -5,7 +5,6 @@ import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
 import lombok.AllArgsConstructor;
 import lombok.experimental.Delegate;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 
 import java.util.Date;
 import java.util.Objects;

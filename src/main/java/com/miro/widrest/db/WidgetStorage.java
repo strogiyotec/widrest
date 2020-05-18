@@ -12,6 +12,7 @@ public interface WidgetStorage {
 
     /**
      * Remove widget with given id.
+     *
      * @param id Id
      * @return True if was removed
      */

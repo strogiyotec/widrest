@@ -36,12 +36,11 @@ public final class UpdatedZIndexWidget implements DbWidget {
             this.origin = DbWidget.empty;
         } else {
             final DbWidget sameIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toUpdate.getZ()));
-            if (sameIndexWidget != DbWidget.empty) {
-                this.origin = updateWidgetWithExistingIndex(updateId, toUpdate, sameIndexWidget, storage);
-            } else {
-                //new z-index doesn't exist in storage then just save it
-                this.origin = storage.update(toUpdate, updateId);
+            if (!sameIndexWidget.equals(DbWidget.empty) && !sameIndexWidget.equals(dbWidget)) {
+                //if widget with this z index exists and it's not a target widget then move it and all whose z index is bigger to one level up
+                storage.moveIndexes(sameIndexWidget);
             }
+            this.origin = storage.update(toUpdate, updateId);
         }
     }
 
@@ -53,33 +52,5 @@ public final class UpdatedZIndexWidget implements DbWidget {
     @Override
     public int hashCode() {
         return this.origin.hashCode();
-    }
-
-    /**
-     * Move all widgets whose z-index is bigger than <sameIndexWidget>
-     * one level up.
-     *
-     * @param id              Id of Widget
-     * @param storage         Storage
-     * @param widget          New Data
-     * @param sameIndexWidget Widget whose index is the same as index from given <widget>
-     * @return Updated Widget
-     */
-    private static DbWidget updateWidgetWithExistingIndex(
-            final Identifiable id,
-            final Widget widget,
-            final DbWidget sameIndexWidget,
-            final WidgetStorage storage
-    ) {
-        //if they are equal then don't need to move indexes just update
-        if (sameIndexWidget.equals(id)) {
-            return storage.update(widget, id);
-        } else {
-            //else before updating z-index move all widgets one level up to free one space
-            storage.moveIndexes(sameIndexWidget);
-            return storage.update(widget, id);
-
-
-        }
     }
 }

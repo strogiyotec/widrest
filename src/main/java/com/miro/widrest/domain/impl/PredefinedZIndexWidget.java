@@ -33,6 +33,7 @@ public final class PredefinedZIndexWidget implements DbWidget {
             storage.moveIndexes(toSave);
             this.origin = storage.add(toSave);
         } else {
+            //z-index doesn't exist just create new widget
             this.origin = storage.add(toSave);
         }
     }

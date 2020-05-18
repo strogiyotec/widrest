@@ -19,7 +19,7 @@ public final class EmptyZIndexWidget implements DbWidget {
      * Ctor.
      * If widget doesn't have z-index
      * then assign the one which is one level lower
-     * than min z-index is storage
+     * than min z-index in storage
      *
      * @param storage Storage
      * @param toSave  Widget To save
@@ -29,7 +29,7 @@ public final class EmptyZIndexWidget implements DbWidget {
                 Optional.ofNullable(storage.getLastByZIndex())
                         //create new one with one index lower
                         .map(lowestIndexWidget -> storage.add(new LowerIndexWidget(lowestIndexWidget)))
-                        //otherwise if db is empty and just create new widget
+                        //otherwise if db is empty then just create new widget
                         .orElse(storage.add(new FirstWidget(toSave)));
     }
 

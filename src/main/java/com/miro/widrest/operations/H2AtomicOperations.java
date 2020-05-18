@@ -6,6 +6,7 @@ import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.EmptyZIndexWidget;
 import com.miro.widrest.domain.impl.PredefinedZIndexWidget;
+import com.miro.widrest.domain.impl.UpdatedZIndexWidget;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -44,7 +45,7 @@ public final class H2AtomicOperations implements AtomicWidgetOperations {
     @Override
     public DbWidget update(final Identifiable id, final Widget widget) {
         return this.transactionTemplate.execute(transactionStatus -> {
-            final DbWidget updated = this.storage.update(widget, id);
+            final DbWidget updated = new UpdatedZIndexWidget(this.storage, widget, id);
             transactionStatus.flush();
             return updated;
         });

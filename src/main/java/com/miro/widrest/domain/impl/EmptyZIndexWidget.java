@@ -14,7 +14,7 @@ public final class EmptyZIndexWidget implements DbWidget {
 
     public EmptyZIndexWidget(final WidgetStorage storage, final Widget toSave) {
         this.origin =
-                Optional.ofNullable(storage.getLastByZIndex(true))
+                Optional.ofNullable(storage.getLastByZIndex())
                         //create new one with one index lower
                         .map(lowestIndexWidget -> storage.add(new LowerIndexWidget(lowestIndexWidget)))
                         //otherwise if db is empty and just create new widget

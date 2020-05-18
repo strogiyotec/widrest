@@ -11,6 +11,3 @@ CREATE TABLE widgets
     height       int /*widget height*/,
     last_updated TIME WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT INTO widgets (x, y, z)
-values (1, 1, 1);

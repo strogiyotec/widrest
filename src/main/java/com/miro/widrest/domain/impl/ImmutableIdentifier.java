@@ -18,9 +18,8 @@ public final class ImmutableIdentifier implements Identifiable {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final ImmutableIdentifier that = (ImmutableIdentifier) o;
-        return this.id == that.id;
+        final Identifiable that = (Identifiable) o;
+        return this.id == that.getId();
     }
 
     @Override

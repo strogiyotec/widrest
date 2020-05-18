@@ -1,5 +1,8 @@
 package com.miro.widrest.config;
 
+import com.miro.widrest.db.H2Storage;
+import com.miro.widrest.operations.AtomicWidgetOperations;
+import com.miro.widrest.operations.H2AtomicOperations;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
@@ -14,13 +17,22 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Objects;
 
 /**
  * Config for h2 db.
  */
 @Configuration
 @Profile("db")
-public class DbConfig {
+public class H2Config {
+
+    @Bean
+    public AtomicWidgetOperations atomicWidgetOperations(final Environment environment) throws IOException {
+        return new H2AtomicOperations(
+                this.transactionTemplate(environment),
+                new H2Storage(this.jdbcTemplate(environment))
+        );
+    }
 
     @Bean
     public JdbcTemplate jdbcTemplate(final Environment environment) throws IOException {
@@ -41,12 +53,13 @@ public class DbConfig {
 
     @Bean
     public DataSource dataSource(final Environment environment) {
-        System.out.println("Called");
         final HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
         hikariConfig.setJdbcUrl(environment.getProperty("spring.datasource.url"));
         hikariConfig.setUsername(environment.getProperty("spring.datasource.username"));
         hikariConfig.setPassword("");
+        hikariConfig.setMinimumIdle(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.hikari.minimum-idle"))));
+        hikariConfig.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.hikari.maximum-pool-size"))));
         return new HikariDataSource(
                 hikariConfig
         );

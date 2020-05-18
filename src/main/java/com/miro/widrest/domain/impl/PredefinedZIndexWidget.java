@@ -30,7 +30,7 @@ public final class PredefinedZIndexWidget implements DbWidget {
     public PredefinedZIndexWidget(final WidgetStorage storage, final Widget toSave) {
         final DbWidget sameZIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toSave.getZ()));
         // we already have widget with given index
-        if (sameZIndexWidget != null) {
+        if (!sameZIndexWidget.equals(DbWidget.empty)) {
             storage.moveIndexes(toSave);
             this.origin = storage.add(toSave);
         } else {

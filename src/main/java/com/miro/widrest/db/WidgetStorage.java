@@ -17,7 +17,7 @@ public interface WidgetStorage {
 
     DbWidget get(BiPredicate<Identifiable, DbWidget> predicate);
 
-    DbWidget getLastByZIndex(boolean fromLowest);
+    DbWidget getLastByZIndex();
 
     Iterable<? extends DbWidget> getAll();
 

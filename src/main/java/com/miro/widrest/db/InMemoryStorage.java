@@ -89,10 +89,11 @@ public final class InMemoryStorage implements WidgetStorage {
     }
 
     @Override
-    public DbWidget getLast(final Comparator<DbWidget> comparator) {
+    public DbWidget getLast(final boolean lowestZIndex) {
         if (this.storage.isEmpty()) {
             return null;
         } else {
+            final Comparator<DbWidget> comparator = lowestZIndex ? Comparator.comparing(DbWidget::getZ).reversed() : Comparator.comparing(DbWidget::getZ);
             return Collections.max(this.storage.values(), comparator);
         }
     }

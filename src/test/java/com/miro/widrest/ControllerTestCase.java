@@ -47,6 +47,7 @@ class ControllerTestCase {
         )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.lastModified").exists())
                 .andExpect(jsonPath("$.x").value(widget.getX()))
                 .andExpect(jsonPath("$.y").value(widget.getY()))
                 .andExpect(jsonPath("$.width").value(widget.getWidth()))

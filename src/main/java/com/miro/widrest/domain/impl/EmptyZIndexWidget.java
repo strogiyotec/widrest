@@ -5,7 +5,6 @@ import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Widget;
 import lombok.experimental.Delegate;
 
-import java.util.Comparator;
 import java.util.Optional;
 
 public final class EmptyZIndexWidget implements DbWidget {
@@ -15,10 +14,7 @@ public final class EmptyZIndexWidget implements DbWidget {
 
     public EmptyZIndexWidget(final WidgetStorage storage, final Widget toSave) {
         this.origin =
-                Optional.ofNullable(
-                        storage.getLast(
-                                Comparator.comparing(DbWidget::getZ).reversed())
-                )
+                Optional.ofNullable(storage.getLast(true))
                         //create new one with one index lower
                         .map(lowestIndexWidget -> storage.add(new LowerIndexWidget(lowestIndexWidget)))
                         //otherwise if db is empty and just create new widget

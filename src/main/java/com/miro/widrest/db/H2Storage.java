@@ -38,7 +38,7 @@ public final class H2Storage implements WidgetStorage {
     }
 
     @Override
-    public DbWidget getLast(final Comparator<DbWidget> comparator) {
+    public DbWidget getLast(final boolean lowestZIndex) {
         return null;
     }
 
@@ -55,5 +55,13 @@ public final class H2Storage implements WidgetStorage {
     @Override
     public boolean exists(final BiPredicate<Identifiable, DbWidget> predicate) {
         return false;
+    }
+
+    static class Hello implements Comparator<DbWidget> {
+
+        @Override
+        public int compare(final DbWidget o1, final DbWidget o2) {
+            return 0;
+        }
     }
 }

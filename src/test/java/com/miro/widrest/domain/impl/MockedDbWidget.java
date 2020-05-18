@@ -1,7 +1,6 @@
 package com.miro.widrest.domain.impl;
 
 import com.miro.widrest.domain.DbWidget;
-import com.miro.widrest.domain.Identifiable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,5 +18,7 @@ public final class MockedDbWidget implements DbWidget {
     private final Integer height;
 
     private final long id;
+
+    private final long lastModified;
 
 }

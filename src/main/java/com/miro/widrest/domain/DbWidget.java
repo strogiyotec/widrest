@@ -4,6 +4,8 @@ public interface DbWidget extends Identifiable, Widget {
 
     Empty empty = new Empty();
 
+    long getLastModified();
+
     @Override
     boolean equals(Object another);
 
@@ -37,6 +39,11 @@ public interface DbWidget extends Identifiable, Widget {
         @Override
         public Integer getHeight() {
             return null;
+        }
+
+        @Override
+        public long getLastModified() {
+            return -1;
         }
     }
 }

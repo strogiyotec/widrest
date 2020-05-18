@@ -5,7 +5,6 @@ import com.miro.widrest.domain.Identifiable;
 import com.miro.widrest.domain.Widget;
 import lombok.AllArgsConstructor;
 
-import java.util.Comparator;
 import java.util.function.BiPredicate;
 
 public interface WidgetStorage {
@@ -18,7 +17,7 @@ public interface WidgetStorage {
 
     DbWidget get(BiPredicate<Identifiable, DbWidget> predicate);
 
-    DbWidget getLast(Comparator<DbWidget> comparator);
+    DbWidget getLast(boolean lowestZIndex);
 
     Iterable<? extends DbWidget> getAll();
 

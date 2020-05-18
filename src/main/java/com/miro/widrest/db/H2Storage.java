@@ -2,6 +2,7 @@ package com.miro.widrest.db;
 
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.DbSavedWidget;
 import com.miro.widrest.domain.impl.ImmutableIdentifier;
@@ -89,10 +90,12 @@ public final class H2Storage implements WidgetStorage {
     }
 
     @Override
-    public Iterable<? extends DbWidget> getAll() {
+    public Iterable<? extends DbWidget> getAll(final Pageable pageable) {
         return this.jdbcTemplate.query(
-                "SELECT * from widgets order by z desc;",
-                new WidgetMapper()
+                "SELECT * from widgets order by z desc limit ? offset ? ;",
+                new WidgetMapper(),
+                pageable.getSize(),
+                pageable.skip()
         );
     }
 

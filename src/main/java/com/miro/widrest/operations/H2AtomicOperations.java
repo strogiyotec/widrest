@@ -3,6 +3,7 @@ package com.miro.widrest.operations;
 import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.EmptyZIndexWidget;
 import com.miro.widrest.domain.impl.PredefinedZIndexWidget;
@@ -52,8 +53,8 @@ public final class H2AtomicOperations implements AtomicWidgetOperations {
     }
 
     @Override
-    public Iterable<? extends DbWidget> getAll() {
-        return this.transactionTemplate.execute(transactionStatus -> this.storage.getAll());
+    public Iterable<? extends DbWidget> getAll(final Pageable pageable) {
+        return this.transactionTemplate.execute(transactionStatus -> this.storage.getAll(pageable));
     }
 
     @Override

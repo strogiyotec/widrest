@@ -2,6 +2,7 @@ package com.miro.widrest.db;
 
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import lombok.AllArgsConstructor;
 
@@ -9,6 +10,11 @@ import java.util.function.BiPredicate;
 
 public interface WidgetStorage {
 
+    /**
+     * Remove widget with given id.
+     * @param id Id
+     * @return True if was removed
+     */
     boolean remove(Identifiable id);
 
     DbWidget add(Widget widget);
@@ -19,7 +25,7 @@ public interface WidgetStorage {
 
     DbWidget getLastByZIndex();
 
-    Iterable<? extends DbWidget> getAll();
+    Iterable<? extends DbWidget> getAll(final Pageable pageable);
 
     Iterable<? extends DbWidget> moveIndexes(Widget lowestIndexWidget);
 
@@ -39,6 +45,9 @@ public interface WidgetStorage {
         }
     }
 
+    /**
+     * Predicates that searches widget by z-index.
+     */
     @AllArgsConstructor
     final class SearchByZIndex implements BiPredicate<Identifiable, DbWidget> {
 

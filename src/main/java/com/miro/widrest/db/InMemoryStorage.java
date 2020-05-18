@@ -2,6 +2,7 @@ package com.miro.widrest.db;
 
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.DbSavedWidget;
 import com.miro.widrest.domain.impl.HigherIndexWidget;
@@ -105,11 +106,13 @@ public final class InMemoryStorage implements WidgetStorage {
     }
 
     @Override
-    public Iterable<? extends DbWidget> getAll() {
+    public Iterable<? extends DbWidget> getAll(final Pageable pageable) {
         return this.storage
                 .values()
                 .stream()
                 .sorted(Comparator.comparing(DbWidget::getZ))
+                .skip(pageable.skip())
+                .limit(pageable.getSize())
                 .collect(Collectors.toList());
     }
 }

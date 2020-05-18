@@ -2,6 +2,7 @@ package com.miro.widrest.db;
 
 import com.miro.widrest.Utils;
 import com.miro.widrest.domain.DbWidget;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.impl.ImmutableWidget;
 import com.miro.widrest.domain.impl.MockedIdentifier;
 import com.miro.widrest.domain.impl.MockedWidget;
@@ -59,7 +60,7 @@ final class ImMemoryStorageTestCase {
         storage.add(new ImmutableWidget(1, 1, 30, 1, 1));
         storage.add(new ImmutableWidget(1, 1, 10, 1, 1));
         storage.add(new ImmutableWidget(1, 1, 20, 1, 1));
-        final List<DbWidget> widgets = Lists.newArrayList(storage.getAll());
+        final List<DbWidget> widgets = Lists.newArrayList(storage.getAll(new Pageable()));
 
         Assertions.assertTrue(
                 widgets.get(0).getZ() < widgets.get(1).getZ()
@@ -110,7 +111,7 @@ final class ImMemoryStorageTestCase {
         storage.add(new ImmutableWidget(1, 1, zIndex, 1, 1));
         //z-indexes before update are 10,20,30
         Assertions.assertEquals(
-                Utils.indexes(storage.getAll()),
+                Utils.indexes(storage.getAll(new Pageable())),
                 List.of(10, 20, 30)
         );
         //only two widgets were modified
@@ -119,7 +120,7 @@ final class ImMemoryStorageTestCase {
                 List.of(20, 30)
         );
         Assertions.assertEquals(
-                Utils.indexes(storage.getAll()),
+                Utils.indexes(storage.getAll(new Pageable())),
                 List.of(10, 21, 31)
         );
     }

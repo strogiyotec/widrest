@@ -3,6 +3,7 @@ package com.miro.widrest.operations;
 import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Identifiable;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.EmptyZIndexWidget;
 import com.miro.widrest.domain.impl.PredefinedZIndexWidget;
@@ -54,10 +55,10 @@ public final class InMemoryAtomicOperations implements AtomicWidgetOperations {
 
 
     @Override
-    public Iterable<? extends DbWidget> getAll() {
+    public Iterable<? extends DbWidget> getAll(final Pageable pageable) {
         try {
             this.lock.readLock().lock();
-            return this.storage.getAll();
+            return this.storage.getAll(pageable);
         } finally {
             this.lock.readLock().unlock();
         }

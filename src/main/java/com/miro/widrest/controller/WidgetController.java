@@ -1,6 +1,7 @@
 package com.miro.widrest.controller;
 
 import com.miro.widrest.domain.DbWidget;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.impl.ImmutableIdentifier;
 import com.miro.widrest.domain.impl.ImmutableWidget;
 import com.miro.widrest.operations.AtomicWidgetOperations;
@@ -40,9 +41,9 @@ public final class WidgetController {
     }
 
     @GetMapping("/widgets")
-    public ResponseEntity<Object> getAll() {
+    public ResponseEntity<Object> getAll(final Pageable pageable) {
         final List<DbWidget> widgets = new ArrayList<>(16);
-        this.atomicOperation.getAll().forEach(widgets::add);
+        this.atomicOperation.getAll(pageable).forEach(widgets::add);
         if (widgets.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {

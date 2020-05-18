@@ -3,6 +3,7 @@ package com.miro.widrest;
 import com.miro.widrest.db.InMemoryStorage;
 import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
+import com.miro.widrest.domain.Pageable;
 import com.miro.widrest.domain.Widget;
 import com.miro.widrest.domain.impl.FirstWidget;
 import com.miro.widrest.domain.impl.ImmutableWidget;
@@ -43,8 +44,8 @@ public final class InMemoryAtomicOperationsTestCase {
         }
         latch.countDown();
         service.shutdown();
-        service.awaitTermination(10, TimeUnit.SECONDS);
-        final List<Integer> indexes = Utils.indexes(storage.getAll());
+        service.awaitTermination(20, TimeUnit.SECONDS);
+        final List<Integer> indexes = Utils.indexes(storage.getAll(new Pageable(0, iterations)));
         final long count = indexes
                 .stream()
                 .distinct()
@@ -70,7 +71,7 @@ public final class InMemoryAtomicOperationsTestCase {
         );
         // check that two other indexes were moved one level up
         Assertions.assertEquals(
-                Utils.indexes(storage.getAll()),
+                Utils.indexes(storage.getAll(new Pageable())),
                 List.of(10, 11, 12)
         );
 
@@ -81,7 +82,11 @@ public final class InMemoryAtomicOperationsTestCase {
     @DisplayName("Test that when first widget doesn't have z-index then FirstWidget is used")
     public void testAddToEmptyStorage() {
         final InMemoryStorage storage = new InMemoryStorage();
-        final InMemoryAtomicOperations operations = new InMemoryAtomicOperations(new ReentrantReadWriteLock(true), storage);
+        final InMemoryAtomicOperations operations =
+                new InMemoryAtomicOperations(
+                        new ReentrantReadWriteLock(true),
+                        storage
+                );
         final Widget widget = new ImmutableWidget(1, 1, null, 1, 1);
 
         Assertions.assertEquals(
@@ -94,14 +99,18 @@ public final class InMemoryAtomicOperationsTestCase {
     @DisplayName("Test that during insert with same z-index, all widgets whose z-index is bigger are moved one level up")
     public void testAddWithZIndex() {
         final InMemoryStorage storage = new InMemoryStorage();
-        final InMemoryAtomicOperations operations = new InMemoryAtomicOperations(new ReentrantReadWriteLock(true), storage);
+        final InMemoryAtomicOperations operations =
+                new InMemoryAtomicOperations(
+                        new ReentrantReadWriteLock(true),
+                        storage
+                );
         for (int i = 0; i < 5; i++) {
             operations.create(
                     new MockedWidget(10)
             );
         }
         Assertions.assertEquals(
-                Utils.indexes(storage.getAll()),
+                Utils.indexes(storage.getAll(new Pageable())),
                 List.of(10, 11, 12, 13, 14)
         );
     }

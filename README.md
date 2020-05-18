@@ -8,12 +8,17 @@ All widgets are stored in memory.
 The project has two profiles: `default,db`. Default uses in memory **ConcurrentHashMap** to store widget.
 If `db` profiles was chosen , then H2 DB is used .
 
+# Technologies
+- Java 11
+- Mvn
+
 # Dependencies
 
 - Spring boot 2
 - H2
 - Lombok
 - Spring Jdbc
+
 
 # Opeations
 

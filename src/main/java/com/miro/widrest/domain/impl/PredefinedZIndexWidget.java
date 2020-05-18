@@ -3,18 +3,11 @@ package com.miro.widrest.domain.impl;
 import com.miro.widrest.db.WidgetStorage;
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Widget;
-import lombok.experimental.Delegate;
 
 /**
  * Db widget whose z index is predefined.
  */
-public final class PredefinedZIndexWidget implements DbWidget {
-
-    /**
-     * Origin.
-     */
-    @Delegate
-    private final DbWidget origin;
+public final class PredefinedZIndexWidget extends DbWidgetEnvelope {
 
     /**
      * Ctor.
@@ -27,24 +20,18 @@ public final class PredefinedZIndexWidget implements DbWidget {
      * @param toSave  Widget to save
      */
     public PredefinedZIndexWidget(final WidgetStorage storage, final Widget toSave) {
-        final DbWidget sameZIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toSave.getZ()));
-        // we already have widget with given index
-        if (!sameZIndexWidget.equals(DbWidget.empty)) {
-            storage.moveIndexes(toSave);
-            this.origin = storage.add(toSave);
-        } else {
-            //z-index doesn't exist just create new widget
-            this.origin = storage.add(toSave);
-        }
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        return this.origin.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.origin.hashCode();
+        super(() ->
+                {
+                    final DbWidget sameZIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toSave.getZ()));
+                    // we already have widget with given index
+                    if (!sameZIndexWidget.equals(DbWidget.empty)) {
+                        storage.moveIndexes(toSave);
+                        return storage.add(toSave);
+                    } else {
+                        //z-index doesn't exist just create new widget
+                        return storage.add(toSave);
+                    }
+                }
+        );
     }
 }

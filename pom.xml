@@ -79,6 +79,9 @@
                 <configuration>
                     <excludes>
                         <exclude>com/miro/widrest/config/DbConfig.class</exclude>
+                        <exclude>com/miro/widrest/WidrestApplication.class</exclude>
+                        <exclude>com/miro/widrest/operations/H2AtomicOperations.class</exclude>
+                        <exclude>com/miro/widrest/db/H2Storage.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>

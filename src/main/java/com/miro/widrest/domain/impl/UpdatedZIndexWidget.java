@@ -9,7 +9,6 @@ import lombok.experimental.Delegate;
 /**
  * Update db widget whose new z-index is already present in storage.
  */
-
 public final class UpdatedZIndexWidget implements DbWidget {
 
     @Delegate

@@ -8,7 +8,6 @@ import lombok.experimental.Delegate;
 /**
  * Db widget whose z index is predefined.
  */
-
 public final class PredefinedZIndexWidget implements DbWidget {
 
     /**
@@ -20,7 +19,7 @@ public final class PredefinedZIndexWidget implements DbWidget {
     /**
      * Ctor.
      * if storage is empty then save this widget
-     * If storage with the same z index exists
+     * If widget with the same z index exists
      * then move it and all widgets with bigger z-indexes
      * one level up
      *

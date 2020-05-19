@@ -57,11 +57,12 @@ public final class H2Storage implements WidgetStorage {
     @Override
     public DbWidget update(final Widget widget, final Identifiable id) {
         final int update = this.jdbcTemplate.update(
-                "UPDATE widgets set x=?,y=?,width=?,height=?,last_updated = CURRENT_TIMESTAMP where id = ?",
+                "UPDATE widgets set x=?,y=?,width=?,height=?,z=? ,last_updated = CURRENT_TIMESTAMP where id = ?",
                 widget.getX(),
                 widget.getY(),
                 widget.getWidth(),
                 widget.getHeight(),
+                widget.getZ(),
                 id.getId()
         );
         if (update != 0) {
@@ -92,7 +93,7 @@ public final class H2Storage implements WidgetStorage {
     @Override
     public Iterable<? extends DbWidget> getAll(final Pageable pageable) {
         return this.jdbcTemplate.query(
-                "SELECT * from widgets order by z desc limit ? offset ? ;",
+                "SELECT * from widgets order by z asc limit ? offset ? ;",
                 new WidgetMapper(),
                 pageable.getSize(),
                 pageable.skip()

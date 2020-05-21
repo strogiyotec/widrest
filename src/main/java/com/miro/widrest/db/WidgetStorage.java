@@ -28,6 +28,13 @@ public interface WidgetStorage {
 
     Iterable<? extends DbWidget> getAll(final Pageable pageable);
 
+    /**
+     * Increment z-indexes of widgets
+     * whose z-index is bigger than given one.
+     *
+     * @param startIndex Start index
+     * @return Effected rows
+     */
     Iterable<? extends DbWidget> incrementIndexes(Integer startIndex);
 
     boolean exists(BiPredicate<Identifiable, DbWidget> predicate);

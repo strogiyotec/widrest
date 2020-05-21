@@ -25,7 +25,7 @@ public final class PredefinedZIndexWidget extends DbWidgetEnvelope {
                     final DbWidget sameZIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toSave.getZ()));
                     // we already have widget with given index
                     if (!sameZIndexWidget.equals(DbWidget.empty)) {
-                        storage.moveIndexes(toSave);
+                        storage.incrementIndexes(toSave.getZ());
                         return storage.add(toSave);
                     } else {
                         //z-index doesn't exist just create new widget

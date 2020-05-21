@@ -116,7 +116,7 @@ final class ImMemoryStorageTestCase {
         );
         //only two widgets were modified
         Assertions.assertEquals(
-                Utils.indexes(storage.moveIndexes(new ImmutableWidget(1, 1, zIndex, 1, 1))),
+                Utils.indexes(storage.incrementIndexes(zIndex)),
                 List.of(20, 30)
         );
         Assertions.assertEquals(

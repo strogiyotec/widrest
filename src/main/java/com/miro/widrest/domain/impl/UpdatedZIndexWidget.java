@@ -35,7 +35,7 @@ public final class UpdatedZIndexWidget extends DbWidgetEnvelope {
                 final DbWidget sameIndexWidget = storage.get(new WidgetStorage.SearchByZIndex(toUpdate.getZ()));
                 if (!sameIndexWidget.equals(DbWidget.empty) && !sameIndexWidget.equals(dbWidget)) {
                     //if widget with this z index exists and it's not a target widget then move it and all whose z index is bigger to one level up
-                    storage.moveIndexes(sameIndexWidget);
+                    storage.incrementIndexes(sameIndexWidget.getZ());
                 }
                 return storage.update(toUpdate, updateId);
             }

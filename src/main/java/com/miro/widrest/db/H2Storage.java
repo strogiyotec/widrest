@@ -101,9 +101,9 @@ public final class H2Storage implements WidgetStorage {
     }
 
     @Override
-    public Iterable<? extends DbWidget> moveIndexes(final Widget lowestIndexWidget) {
-        final List<DbWidget> widgets = this.jdbcTemplate.query("SELECT * from widgets where z >=?", new WidgetMapper(), lowestIndexWidget.getZ());
-        this.jdbcTemplate.update("UPDATE widgets set z = z+1 where z>=?", lowestIndexWidget.getZ());
+    public Iterable<? extends DbWidget> incrementIndexes(final Integer startIndex) {
+        final List<DbWidget> widgets = this.jdbcTemplate.query("SELECT * from widgets where z >=?", new WidgetMapper(), startIndex);
+        this.jdbcTemplate.update("UPDATE widgets set z = z+1 where z>=?", startIndex);
         return widgets;
     }
 

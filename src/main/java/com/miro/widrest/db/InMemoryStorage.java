@@ -48,12 +48,12 @@ public final class InMemoryStorage implements WidgetStorage {
     }
 
     @Override
-    public Iterable<? extends DbWidget> moveIndexes(final Widget lowestIndexWidget) {
+    public Iterable<? extends DbWidget> incrementIndexes(final Integer startIndex) {
         //store replaced widgets
         final List<DbWidget> replaced = new ArrayList<>();
         this.storage.replaceAll((identifiable, dbWidget) -> {
             //move this widget higher
-            if (dbWidget.getZ() >= lowestIndexWidget.getZ()) {
+            if (dbWidget.getZ() >= startIndex) {
                 replaced.add(dbWidget);
                 return new DbSavedWidget(
                         new HigherIndexWidget(

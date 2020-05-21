@@ -28,7 +28,7 @@ public interface WidgetStorage {
 
     Iterable<? extends DbWidget> getAll(final Pageable pageable);
 
-    Iterable<? extends DbWidget> moveIndexes(Widget lowestIndexWidget);
+    Iterable<? extends DbWidget> incrementIndexes(Integer startIndex);
 
     boolean exists(BiPredicate<Identifiable, DbWidget> predicate);
 

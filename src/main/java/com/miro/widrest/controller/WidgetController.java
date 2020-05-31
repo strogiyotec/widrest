@@ -2,8 +2,9 @@ package com.miro.widrest.controller;
 
 import com.miro.widrest.domain.DbWidget;
 import com.miro.widrest.domain.Pageable;
+import com.miro.widrest.domain.WidgetToCreate;
+import com.miro.widrest.domain.WidgetToUpdate;
 import com.miro.widrest.domain.impl.ImmutableIdentifier;
-import com.miro.widrest.domain.impl.ImmutableWidget;
 import com.miro.widrest.operations.AtomicWidgetOperations;
 import com.miro.widrest.validation.WidgetValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public final class WidgetController {
      */
     @PutMapping("/widgets/{id}")
     public ResponseEntity<Object> update(
-            @RequestBody final ImmutableWidget widget,
+            @RequestBody final WidgetToUpdate widget,
             @PathVariable("id") final long id) {
         try {
             final DbWidget updated = this.atomicOperation.update(new ImmutableIdentifier(id), widget);
@@ -105,7 +106,7 @@ public final class WidgetController {
      * Bad request if not valid body
      */
     @PostMapping("/widgets")
-    public ResponseEntity<Object> create(@RequestBody final ImmutableWidget widget) {
+    public ResponseEntity<Object> create(@RequestBody final WidgetToCreate widget) {
         try {
             return
                     ResponseEntity.ok(
